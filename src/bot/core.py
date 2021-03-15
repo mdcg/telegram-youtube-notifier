@@ -1,6 +1,5 @@
 import sys
 
-from decouple import config
 from src.bot import logger
 from src.bot.messages import (
     AVAILABLE_COMMANDS_MESSAGE,
@@ -11,9 +10,7 @@ from src.bot.messages import (
 )
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
 from src.database.utils import save_channel, save_user, subscribe_user
-
-
-TELEGRAM_TOKEN = config("TELEGRAM_TOKEN", "")
+from src.settings import TELEGRAM_TOKEN
 
 
 def start_command(update, context):
