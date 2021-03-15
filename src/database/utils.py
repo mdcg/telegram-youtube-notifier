@@ -59,3 +59,15 @@ def subscribe_user(channel_id, chat_id):
     sql = "INSERT INTO notifications (relation_id, channel_id, chat_id) VALUES (?, ?, ?);"
     insert_data(sql, (relation_id, channel_id, chat_id))
     return None
+
+
+def search_for_subscribed_users(channel_id):
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT chat_id FROM notifications WHERE channel_id = ?;",
+            (channel_id,),
+        )
+        users = cursor.fetchall()
+
+    return users
