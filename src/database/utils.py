@@ -70,4 +70,4 @@ def search_for_subscribed_users(channel_id):
         )
         users = cursor.fetchall()
 
-    return users
+    return [user[0] for user in users]
