@@ -1,16 +1,14 @@
 import sys
 
 from src.bot import logger
-from src.bot.messages import (
-    AVAILABLE_COMMANDS_MESSAGE,
-    GREETINGS_MESSAGE,
-    UNKNOWN_MESSAGE,
-    SUBSCRIPTION_MESSAGE,
-    NON_INFORMED_CHANNEL_ID_MESSAGE,
-)
-from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
+from src.bot.messages import (AVAILABLE_COMMANDS_MESSAGE, GREETINGS_MESSAGE,
+                              NON_INFORMED_CHANNEL_ID_MESSAGE,
+                              SUBSCRIPTION_ERROR_MESSAGE, SUBSCRIPTION_MESSAGE,
+                              UNKNOWN_MESSAGE)
+from src.bot.requester import subscribe_in_pubsubhubbub
 from src.database.utils import save_channel, save_user, subscribe_user
 from src.settings import TELEGRAM_TOKEN
+from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
 
 
 def start_command(update, context):
@@ -38,19 +36,26 @@ def unknown_command(update, context):
 def subscribe_command(update, context):
     try:
         channel_id = context.args[0]
-        chat_id = update.effective_chat.id
-
-        save_user(chat_id)
-        save_channel(channel_id)
-        subscribe_user(channel_id, chat_id)
-
-        context.bot.send_message(
-            chat_id=update.effective_chat.id, text=SUBSCRIPTION_MESSAGE
-        )
     except IndexError:
         context.bot.send_message(
             chat_id=update.effective_chat.id,
             text=NON_INFORMED_CHANNEL_ID_MESSAGE,
+        )
+
+    chat_id = update.effective_chat.id
+
+    save_user(chat_id)
+    status = subscribe_in_pubsubhubbub(channel_id)
+
+    if status == 202:
+        save_channel(channel_id)
+        subscribe_user(channel_id, chat_id)
+        context.bot.send_message(
+            chat_id=update.effective_chat.id, text=SUBSCRIPTION_MESSAGE
+        )
+    else:
+        context.bot.send_message(
+            chat_id=update.effective_chat.id, text=SUBSCRIPTION_ERROR_MESSAGE
         )
 
     return None
