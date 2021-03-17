@@ -41,6 +41,7 @@ def subscribe_command(update, context):
             chat_id=update.effective_chat.id,
             text=NON_INFORMED_CHANNEL_ID_MESSAGE,
         )
+        return None
 
     chat_id = update.effective_chat.id
 
