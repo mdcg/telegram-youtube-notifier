@@ -5,3 +5,4 @@ AVAILABLE_COMMANDS_MESSAGE = "This bot is intended to notify you as soon as a ne
 UNKNOWN_MESSAGE = "Sorry, we were unable to understand your request. Use the '/help' command for more usage information."
 SUBSCRIPTION_MESSAGE = "You are now subscribed to the informed channel. As soon as new videos are added, you will be informed."
 NON_INFORMED_CHANNEL_ID_MESSAGE = "You need to enter the desired channel id. For example, the URL ID 'https://www.youtube.com/channel/UC3VHfy8e1jbDnT5TG2pjP1w' is 'UC3VHfy8e1jbDnT5TG2pjP1w'."
+SUBSCRIPTION_ERROR_MESSAGE = "It was not possible to subscribe to the indicated channel. Are you sure everything is specified correctly?"
