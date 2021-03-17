@@ -6,17 +6,19 @@ from fastapi import FastAPI, Request, Response, status
 from pydantic import BaseModel
 from src.database.utils import search_for_subscribed_users
 from src.server.bot import send_telegram_notification
+from src.server import logger
 
 app = FastAPI()
 
 
 # https://pubsubhubbub.github.io/PubSubHubbub/pubsubhubbub-core-0.4.html#rfc.section.5
 # https://pubsubhubbub.github.io/PubSubHubbub/pubsubhubbub-core-0.4.html#verifysub
-@app.get("/feed", status_code=200)
+@app.get("/feed")
 async def feed_challenge(request: Request, response: Response):
     challenge = request.query_params.get("hub.challenge")
+    logger.info(f"RECEIVED CHALLENGE: {challenge}")
     if challenge:
-        return challenge
+        return Response(challenge, status_code=status.HTTP_200_OK, media_type="text/plain")
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
