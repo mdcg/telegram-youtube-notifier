@@ -1,0 +1,21 @@
+version: '2'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: api.Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - transfer-area:/opt/transfer_area/
+  bot:
+    build:
+      context: .
+      dockerfile: bot.Dockerfile
+    depends_on:
+      - api
+    volumes:
+      - transfer-area:/opt/transfer_area/
+
+volumes:
+  transfer-area:
