@@ -1,0 +1,4 @@
+build:
+  docker:
+    api: api.Dockerfile
+    bot: bot.Dockerfile
