@@ -19,7 +19,9 @@ async def feed_challenge(request: Request, response: Response):
     challenge = request.query_params.get("hub.challenge")
     logger.info(f"RECEIVED CHALLENGE: {challenge}")
     if challenge:
-        return Response(challenge, status_code=status.HTTP_200_OK, media_type="text/plain")
+        return Response(
+            challenge, status_code=status.HTTP_200_OK, media_type="text/plain"
+        )
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
@@ -34,7 +36,7 @@ async def notify_users(request: Request, response: Response):
 
     entry = root.find(f"{atom}entry")
     channel_id = entry.find(f"{yt}channelId").text
-    
+
     author_tag = entry.find(f"{atom}author")
     author = author_tag.find(f"{atom}name").text
     link = entry.find(f"{atom}link").get("href")

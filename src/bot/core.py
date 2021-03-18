@@ -1,10 +1,14 @@
 import sys
 
 from src.bot import logger
-from src.bot.messages import (AVAILABLE_COMMANDS_MESSAGE, GREETINGS_MESSAGE,
-                              NON_INFORMED_CHANNEL_ID_MESSAGE,
-                              SUBSCRIPTION_ERROR_MESSAGE, SUBSCRIPTION_MESSAGE,
-                              UNKNOWN_MESSAGE)
+from src.bot.messages import (
+    AVAILABLE_COMMANDS_MESSAGE,
+    GREETINGS_MESSAGE,
+    NON_INFORMED_CHANNEL_ID_MESSAGE,
+    SUBSCRIPTION_ERROR_MESSAGE,
+    SUBSCRIPTION_MESSAGE,
+    UNKNOWN_MESSAGE,
+)
 from src.bot.requester import subscribe_in_pubsubhubbub
 from src.database.utils import save_channel, save_user, subscribe_user
 from src.settings import TELEGRAM_TOKEN
