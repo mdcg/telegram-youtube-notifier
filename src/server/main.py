@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from src.database.utils import search_for_subscribed_users
 from src.server.bot import send_telegram_notification
 from src.server import logger
+from src.settings import PORT
 
 app = FastAPI()
 
@@ -52,4 +53,4 @@ async def notify_users(request: Request, response: Response):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=5000)
+    uvicorn.run(app, host="0.0.0.0", port=PORT)
