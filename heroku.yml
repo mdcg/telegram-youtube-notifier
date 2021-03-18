@@ -1,4 +1,6 @@
 build:
   docker:
-    api: api.Dockerfile
+    web: api.Dockerfile
     bot: bot.Dockerfile
+run:
+  web: uvicorn src.server.main:app --reload --host 0.0.0.0 --port $PORT

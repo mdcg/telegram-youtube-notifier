@@ -10,4 +10,4 @@ COPY . /opt/code/
 WORKDIR /opt/code/
 
 RUN ["python", "-m", "src.database.generate_db"]
-CMD ["python", "-m", "src.server.main"]
+# CMD ["python", "-m", "src.server.main"]

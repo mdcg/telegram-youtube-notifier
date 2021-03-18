@@ -50,7 +50,3 @@ async def notify_users(request: Request, response: Response):
         "title": title,
         "author": author,
     }
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=PORT)
