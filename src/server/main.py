@@ -3,6 +3,7 @@ from typing import Optional
 
 import uvicorn
 from fastapi import FastAPI, Request, Response, status
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from src.database.utils import search_for_subscribed_users
 from src.server.bot import send_telegram_notification
@@ -51,12 +52,12 @@ async def notify_users(request: Request, response: Response):
     for ch_id in channels_id:
         send_telegram_notification(ch_id, link, title, author)
 
-    context = {
-        "channel_id": channel_id,
-        "link": link,
-        "title": title,
-        "author": author,
-    }
-    return Response(
-        context, status_code=status.HTTP_200_OK, media_type="application/json"
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content={
+            "channel_id": channel_id,
+            "link": link,
+            "title": title,
+            "author": author,
+        },
     )
