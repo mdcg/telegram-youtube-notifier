@@ -7,4 +7,4 @@ build:
     web: api.Dockerfile
     bot: bot.Dockerfile
 run:
-  web: bash -c "python -m src.database.generate_db && uvicorn src.server.main:app --reload --host 0.0.0.0 --port $PORT"
+  web: sh -c "python -m src.database.generate_db && uvicorn src.server.main:app --reload --host 0.0.0.0 --port $PORT"
