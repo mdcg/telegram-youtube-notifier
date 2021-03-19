@@ -47,18 +47,24 @@ def subscribe_command(update, context):
         )
         return None
 
+    logger.info("Channel subscription requested. Initializing processing.")
+
     chat_id = update.effective_chat.id
 
     save_user(chat_id)
     status = subscribe_in_pubsubhubbub(channel_id)
 
     if status == 202:
+        logger.info("Request sent successfully.")
         save_channel(channel_id)
         subscribe_user(channel_id, chat_id)
         context.bot.send_message(
             chat_id=update.effective_chat.id, text=SUBSCRIPTION_MESSAGE
         )
     else:
+        logger.warning(
+            f"There was a problem sending your subscribe request. Status Code received: {status}"
+        )
         context.bot.send_message(
             chat_id=update.effective_chat.id, text=SUBSCRIPTION_ERROR_MESSAGE
         )
