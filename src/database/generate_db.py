@@ -7,7 +7,11 @@ from src.database import logger
 import psycopg2
 
 
-def init_db():
+def init_db() -> None:
+    """We need to ensure that the database works with a specific rule. Thus,
+    this function is called whenever a new version of the system goes into
+    production.
+    """
     with get_connection() as conn:
         try:
             cursor = conn.cursor()

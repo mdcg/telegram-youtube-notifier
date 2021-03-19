@@ -1,3 +1,8 @@
+"""
+To make it a little easier to manage the messages sent by Bot, we have allocated
+them all here.
+"""
+
 GREETINGS_MESSAGE = (
     "Greetings, honorable {}! Use the '/help' command for more information!"
 )

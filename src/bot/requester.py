@@ -3,7 +3,21 @@ from src.settings import CALLBACK_URL
 from src.bot import logger
 
 
-def subscribe_in_pubsubhubbub(channel_id):
+def subscribe_in_pubsubhubbub(channel_id: str) -> int:
+    """The subscription request to find out when a new video arrives on a
+    specific channel is made from this function. Basically here the
+    necessary data for this activity is informed for Pubsubhubbub
+
+    Parameters
+    ----------
+    channel_id : str
+        YouTube channel identifier.
+
+    Returns
+    -------
+    int
+        HTTP status code reported by pubsubhubbub in response.
+    """
     logger.info("Sending subscribe request to Pubsubhubbub..")
     payload = {
         "hub.callback": CALLBACK_URL,
