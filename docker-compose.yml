@@ -4,9 +4,11 @@ services:
     build:
       context: .
       dockerfile: api.Dockerfile
-    command: sh -c "uvicorn src.server.main:app --reload --host 0.0.0.0 --port 5000"
+    command: sh -c "python -m src.database.generate_db && uvicorn src.server.main:app --reload --host 0.0.0.0 --port 5000"
+    depends_on:
+      - db
     ports:
-      - "8000:8000"
+      - "5000:5000"
     volumes:
       - transfer-area:/opt/transfer_area/
   bot:
@@ -15,8 +17,17 @@ services:
       dockerfile: bot.Dockerfile
     depends_on:
       - api
+      - db
     volumes:
       - transfer-area:/opt/transfer_area/
+  db:
+    image: postgres:11
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - DATABASE_URL=postgresql://postgres:postgres@db/postgres
 
 volumes:
   transfer-area:
