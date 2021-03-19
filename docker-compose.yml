@@ -5,6 +5,8 @@ services:
       context: .
       dockerfile: api.Dockerfile
     command: sh -c "python -m src.database.generate_db && uvicorn src.server.main:app --reload --host 0.0.0.0 --port 5000"
+    environment:
+      - PORT=5000
     depends_on:
       - db
     ports:
@@ -15,6 +17,9 @@ services:
     build:
       context: .
       dockerfile: bot.Dockerfile
+    environment:
+      - TELEGRAM_TOKEN=
+      - CALLBACK_URL=
     depends_on:
       - api
       - db
