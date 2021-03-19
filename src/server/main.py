@@ -32,21 +32,31 @@ async def notify_users(request: Request, response: Response):
     pubsubhubbub_request_body = await request.body()
     root = ET.fromstring(pubsubhubbub_request_body)
 
-    entry = root.find(f"{atom}entry")
-    channel_id = entry.find(f"{yt}channelId").text
+    try:
+        entry = root.find(f"{atom}entry")
+        channel_id = entry.find(f"{yt}channelId").text
 
-    author_tag = entry.find(f"{atom}author")
-    author = author_tag.find(f"{atom}name").text
-    link = entry.find(f"{atom}link").get("href")
-    title = entry.find(f"{atom}title").text
+        author_tag = entry.find(f"{atom}author")
+        author = author_tag.find(f"{atom}name").text
+        link = entry.find(f"{atom}link").get("href")
+        title = entry.find(f"{atom}title").text
+    except AttributeError as err:
+        logger.info(f"There was an error while receiving the XML: {err}")
+        logger.info(f"XML received: {pubsubhubbub_request_body}")
+        return Response(
+            status_code=status.HTTP_400_BAD_REQUEST, media_type="text/plain"
+        )
 
     channels_id = search_for_subscribed_users(channel_id)
     for ch_id in channels_id:
         send_telegram_notification(ch_id, link, title, author)
 
-    return {
+    context = {
         "channel_id": channel_id,
         "link": link,
         "title": title,
         "author": author,
     }
+    return Response(
+        context, status_code=status.HTTP_200_OK, media_type="application/json"
+    )

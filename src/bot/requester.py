@@ -14,9 +14,7 @@ def subscribe_in_pubsubhubbub(channel_id):
     r = requests.post(
         "https://pubsubhubbub.appspot.com/subscribe", data=payload
     )
-    logger.info(
-        f"Callback URL: {CALLBACK_URL}"
-    )
+    logger.info(f"Callback URL: {CALLBACK_URL}")
     logger.info(
         f"Checking for possible message received from pubsubhubbub: {r.text}"
     )
