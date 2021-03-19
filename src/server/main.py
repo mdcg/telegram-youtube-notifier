@@ -12,8 +12,6 @@ from src.settings import PORT
 app = FastAPI()
 
 
-# https://pubsubhubbub.github.io/PubSubHubbub/pubsubhubbub-core-0.4.html#rfc.section.5
-# https://pubsubhubbub.github.io/PubSubHubbub/pubsubhubbub-core-0.4.html#verifysub
 @app.get("/feed")
 async def feed_challenge(request: Request, response: Response):
     challenge = request.query_params.get("hub.challenge")
